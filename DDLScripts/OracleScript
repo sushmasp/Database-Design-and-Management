@@ -1,0 +1,747 @@
+﻿-- Table factStudentCourseGrade
+
+CREATE TABLE factStudentCourseGrade(
+  StudentCourseGradeID Integer NOT NULL,
+  StudentCourseID Integer,
+  GradeTypeID Integer,
+  CreditAttempted Number(10,2),
+  CreditGiven Number(10,2),
+  NumericGrade Number(10,2),
+  AlphaGrade Varchar2(5 ),
+  AlphaNumericGrade Number(10,2)
+)
+/
+
+-- Add keys for table factStudentCourseGrade
+
+ALTER TABLE factStudentCourseGrade ADD CONSTRAINT factStudentCourseGrade_PK PRIMARY KEY (StudentCourseGradeID)
+/
+
+-- Table factStudentCourse
+
+CREATE TABLE factStudentCourse(
+  StudentCourseID Integer NOT NULL,
+  StudentID Integer,
+  SISStudentID Integer,
+  CourseID Integer,
+  StaffID Integer,
+  FacilityID Integer,
+  PeriodID Integer,
+  CourseDate Timestamp(9),
+  EnrollmentDate Timestamp(9),
+  EnrollmentCodeID Integer,
+  WithdrawalDate Timestamp(9),
+  WithdrawalCodeID Integer,
+  GradeLevel Varchar2(10 )
+)
+/
+
+-- Add keys for table factStudentCourse
+
+ALTER TABLE factStudentCourse ADD CONSTRAINT factStudentCourse_PK PRIMARY KEY (StudentCourseID)
+/
+
+-- Table factStandardizedTestScore
+
+CREATE TABLE factStandardizedTestScore(
+  StandardizedTestScoreID Integer NOT NULL,
+  StudentID Integer,
+  SISStudentID Integer,
+  TestDate Timestamp(9),
+  SubjectID Integer,
+  RawScore Number(10,2),
+  PossibleRawScore Number(10,2),
+  ScaledScore Number(10,2),
+  PossibleScaledScore Number(10,2),
+  PerformanceLevel Number(10,2),
+  Lexile Varchar2(50 ),
+  LatestTest Integer
+)
+/
+
+-- Add keys for table factStandardizedTestScore
+
+ALTER TABLE factStandardizedTestScore ADD CONSTRAINT factStandardizedTestScore_PK PRIMARY KEY (StandardizedTestScoreID)
+/
+
+-- Table factStandardizedTestDomainScore
+
+CREATE TABLE factStandardizedTestDomainScor(
+  StandardizedTestDomainScoreID Integer NOT NULL,
+  StandardizedTestScoreID Integer,
+  StandardizedTestDomainID Integer,
+  RawScore Number(10,2),
+  PossibleRawScore Number(10,2)
+)
+/
+
+-- Add keys for table factStandardizedTestDomainScore
+
+ALTER TABLE factStandardizedTestDomainScor ADD CONSTRAINT factStdardizedTstDomainScor_PK PRIMARY KEY (StandardizedTestDomainScoreID)
+/
+
+-- Table factSpecialProgram
+
+CREATE TABLE factSpecialProgram(
+  SpecialProgramID Integer NOT NULL,
+  ProgramID Integer,
+  StudentID Integer,
+  SISStudentID Integer,
+  EntryDate Timestamp(9)
+)
+/
+
+-- Add keys for table factSpecialProgram
+
+ALTER TABLE factSpecialProgram ADD CONSTRAINT factSpecialProgram_PK PRIMARY KEY (SpecialProgramID)
+/
+
+-- Table factSchoolKPI
+
+CREATE TABLE factSchoolKPI(
+  SchoolKPIID Integer NOT NULL,
+  EffectiveDate Timestamp(9) NOT NULL,
+  FacilityID Integer NOT NULL,
+  TargetStudentAttendancePct Integer NOT NULL,
+  TargetStandardizedTestScalScor Integer NOT NULL,
+  TargetEnrollmentCount Integer NOT NULL
+)
+/
+
+-- Add keys for table factSchoolKPI
+
+ALTER TABLE factSchoolKPI ADD CONSTRAINT PK_factSchoolKPI PRIMARY KEY (SchoolKPIID)
+/
+
+-- Table factHSGTScore
+
+CREATE TABLE factHSGTScore(
+  HSGTScoreID Integer NOT NULL,
+  StudentID Integer NOT NULL,
+  SISStudentID Integer,
+  TestDate Timestamp(9),
+  SubjectID Integer,
+  RawScore Number(10,2),
+  PossibleRawScore Number(10,2),
+  ScaledScore Number(10,2),
+  PossibleScaledScore Number(10,2),
+  PassFail Varchar2(50 ),
+  TimesTested Integer,
+  LatestTest Integer
+)
+/
+
+-- Add keys for table factHSGTScore
+
+ALTER TABLE factHSGTScore ADD CONSTRAINT PK_factHSGTScore PRIMARY KEY (HSGTScoreID)
+/
+
+-- Table factHSGTDomainScore
+
+CREATE TABLE factHSGTDomainScore(
+  HSGTDomainScoreID Integer NOT NULL,
+  HSGTScoreID Integer NOT NULL,
+  HSGTDomainID Integer NOT NULL,
+  DomainRawScore Number(10,2),
+  PossibleDomainRawScore Number(10,2)
+)
+/
+
+-- Add keys for table factHSGTDomainScore
+
+ALTER TABLE factHSGTDomainScore ADD CONSTRAINT PK_factHSGTDomainScore PRIMARY KEY (HSGTDomainScoreID)
+/
+
+-- Table factDiscipline
+
+CREATE TABLE factDiscipline(
+  DisciplineID Integer NOT NULL,
+  StudentID Integer,
+  SISStudentID Integer,
+  EventFacilityID Integer,
+  DisciplineEventCodeID Integer,
+  EventDate Timestamp(9),
+  EventReportingStaffID Integer,
+  DisciplineActionCodeID Integer,
+  ActionDate Timestamp(9),
+  ActionStaffID Integer,
+  ResolutionDate Timestamp(9)
+)
+/
+
+-- Add keys for table factDiscipline
+
+ALTER TABLE factDiscipline ADD CONSTRAINT factDiscipline_PK PRIMARY KEY (DisciplineID)
+/
+
+-- Table factAbsence
+
+CREATE TABLE factAbsence(
+  AbsenceID Integer NOT NULL,
+  AbsenceDate Timestamp(9),
+  StudentID Integer,
+  SISStudentID Integer,
+  AbsenceCodeID Integer,
+  AbsenceCount Integer,
+  FacilityID Integer,
+  StaffID Integer
+)
+/
+
+-- Add keys for table factAbsence
+
+ALTER TABLE factAbsence ADD CONSTRAINT factAbsence_PK PRIMARY KEY (AbsenceID)
+/
+
+-- Table dimWithdrawalCode
+
+CREATE TABLE dimWithdrawalCode(
+  WithdrawalCodeID Integer NOT NULL,
+  WithdrawalCode Varchar2(5 ),
+  WithdrawalCodeDesc Varchar2(50 )
+)
+/
+
+-- Add keys for table dimWithdrawalCode
+
+ALTER TABLE dimWithdrawalCode ADD CONSTRAINT dimWithdrawalCode_PK PRIMARY KEY (WithdrawalCodeID)
+/
+
+-- Table dimSubject
+
+CREATE TABLE dimSubject(
+  SubjectID Integer NOT NULL,
+  SubjectCode Varchar2(50 ),
+  SubjectName Varchar2(200 )
+)
+/
+
+-- Add keys for table dimSubject
+
+ALTER TABLE dimSubject ADD CONSTRAINT dimSubject_PK PRIMARY KEY (SubjectID)
+/
+
+-- Table dimStudent
+
+CREATE TABLE dimStudent(
+  StudentID Integer NOT NULL,
+  SISStudentID Integer,
+  StudentName Varchar2(100 ),
+  StudentFirstName Varchar2(50 ),
+  StudentLastName Varchar2(50 ),
+  BirthDate Timestamp(9),
+  Gender Varchar2(10 ),
+  EthnicityCode Varchar2(5 ),
+  Ethnicity Varchar2(50 ),
+  ESOL Varchar2(5 ),
+  FreeReducedLunch Varchar2(10 ),
+  HomeroomStaffID Integer,
+  FacilityID Integer,
+  Grade Varchar2(5 ),
+  AssignmentID Integer,
+  EnrollmentCodeID Integer,
+  EnrollmentDate Timestamp(9),
+  WithdrawalCodeID Integer,
+  WithdrawalDate Timestamp(9),
+  EffectiveDate Timestamp(9) NOT NULL,
+  EndDate Timestamp(9) NOT NULL,
+  StudentMiddleName Varchar2(50 ),
+  StudentNameSuffix Varchar2(50 ),
+  StudentPhone Varchar2(50 ),
+  StudentSSN Varchar2(50 ),
+  Address1 Varchar2(50 ),
+  City Varchar2(50 ),
+  State Varchar2(50 ),
+  Zip Varchar2(50 ),
+  AdultEmploymentStatus Varchar2(20 ),
+  AdultLEP Varchar2(20 ),
+  AttendancePeriodID Integer,
+  AudiologyServiceEarlyIntervent Varchar2(50 ),
+  BirthCountry Varchar2(50 ),
+  BirthPlace Varchar2(50 ),
+  BirthState Varchar2(50 ),
+  CitizenshipStatus Varchar2(20 ),
+  EarlyAdmission Varchar2(50 ),
+  EconomicDisadvantage Varchar2(50 ),
+  ELLCode Varchar2(20 ),
+  ELLCodeDesc Varchar2(50 ),
+  FederalImpactCode Varchar2(20 ),
+  FederalImpactCodeDesc Varchar2(50 ),
+  GiftedStudent Varchar2(50 ),
+  GraduationPlanYear Varchar2(10 ),
+  GraduationOption Varchar2(50 ),
+  HomeLanguage Varchar2(50 ),
+  HomelessStudent Varchar2(50 ),
+  HomelessUnaccompaniedYouth Varchar2(50 ),
+  Homeroom Varchar2(50 ),
+  HomeSchoolTaught Varchar2(50 ),
+  HouseholdNumber Varchar2(10 ),
+  IncarceratedStudent Varchar2(50 ),
+  KGReadiness Varchar2(50 ),
+  MaritalStatus Varchar2(10 ),
+  MedicaidSpecServices Varchar2(50 ),
+  MedicalServEarlyIntervent Varchar2(50 ),
+  MigrantStatus Varchar2(50 ),
+  MissingChild Varchar2(50 ),
+  NationalAchieveScholar Varchar2(10 ),
+  NationalHispanicScholar Varchar2(10 ),
+  NationalMeritScholar Varchar2(10 ),
+  EarlyIntervention Varchar2(50 ),
+  EarlyExceptionalities Varchar2(50 ),
+  OutOfDistrict Varchar2(10 ),
+  Exceptionality Varchar2(50 ),
+  PrimaryLanguage Varchar2(50 ),
+  ResidentStatus Varchar2(10 ),
+  SecondLanguage Varchar2(50 ),
+  RefID Integer,
+  oldSID Integer,
+  SchoolYear Integer,
+  WithdrawalFlag Integer
+)
+/
+
+-- Add keys for table dimStudent
+
+ALTER TABLE dimStudent ADD CONSTRAINT dimStudent_PK PRIMARY KEY (StudentID)
+/
+
+-- Table dimStandardizedTestDomain
+
+CREATE TABLE dimStandardizedTestDomain(
+  StandardizedTestDomainID Integer NOT NULL,
+  StandardizedTestDomain Varchar2(50 ),
+  SubjectID Integer
+)
+/
+
+-- Add keys for table dimStandardizedTestDomain
+
+ALTER TABLE dimStandardizedTestDomain ADD CONSTRAINT dimStandardizedTestDomain_PK PRIMARY KEY (StandardizedTestDomainID)
+/
+
+-- Table dimStaff
+
+CREATE TABLE dimStaff(
+  StaffID Integer NOT NULL,
+  StaffTypeID Integer,
+  PrimaryFacilityID Integer,
+  StaffFirstName Varchar2(50 ),
+  StaffLastName Varchar2(50 ),
+  StaffName Varchar2(100 ),
+  StaffADUsername Varchar2(50 ),
+  GradeLevel Varchar2(50 )
+)
+/
+
+-- Add keys for table dimStaff
+
+ALTER TABLE dimStaff ADD CONSTRAINT dimStaff_PK PRIMARY KEY (StaffID)
+/
+
+-- Table dimSpecialProgram
+
+CREATE TABLE dimSpecialProgram(
+  ProgramID Integer NOT NULL,
+  ProgramCode Varchar2(10 ),
+  Program Varchar2(100 )
+)
+/
+
+-- Add keys for table dimSpecialProgram
+
+ALTER TABLE dimSpecialProgram ADD CONSTRAINT dimSpecialProgram_PK PRIMARY KEY (ProgramID)
+/
+
+-- Table dimPeriod
+
+CREATE TABLE dimPeriod(
+  PeriodID Integer NOT NULL,
+  Period Varchar2(20 )
+)
+/
+
+-- Add keys for table dimPeriod
+
+ALTER TABLE dimPeriod ADD CONSTRAINT dimPeriod_PK PRIMARY KEY (PeriodID)
+/
+
+-- Table dimHSGTDomain
+
+CREATE TABLE dimHSGTDomain(
+  HSGTDomainID Integer NOT NULL,
+  HSGTDomain Varchar2(200 ),
+  SubjectID Integer
+)
+/
+
+-- Add keys for table dimHSGTDomain
+
+ALTER TABLE dimHSGTDomain ADD CONSTRAINT PK_dimHSGTDomain PRIMARY KEY (HSGTDomainID)
+/
+
+-- Table dimGradeType
+
+CREATE TABLE dimGradeType(
+  GradeTypeID Integer NOT NULL,
+  GradeType Varchar2(50 )
+)
+/
+
+-- Add keys for table dimGradeType
+
+ALTER TABLE dimGradeType ADD CONSTRAINT dimGradeType_PK PRIMARY KEY (GradeTypeID)
+/
+
+-- Table dimFacility
+
+CREATE TABLE dimFacility(
+  FacilityID Integer NOT NULL,
+  Facility Varchar2(100 ),
+  Address Varchar2(50 ),
+  City Varchar2(50 ),
+  Zip Varchar2(20 ),
+  Active Varchar2(20 ),
+  Charter Varchar2(10 ),
+  FacilityADCode Varchar2(50 ),
+  FacLevel Varchar2(50 ),
+  FacilityName Varchar2(50 ),
+  FacilityType Varchar2(50 )
+)
+/
+
+-- Add keys for table dimFacility
+
+ALTER TABLE dimFacility ADD CONSTRAINT dimFacility_PK PRIMARY KEY (FacilityID)
+/
+
+-- Table dimEnrollmentCode
+
+CREATE TABLE dimEnrollmentCode(
+  EnrollmentCodeID Integer NOT NULL,
+  EnrollmentCode Varchar2(5 ),
+  EnrollmentCodeDesc Varchar2(50 )
+)
+/
+
+-- Add keys for table dimEnrollmentCode
+
+ALTER TABLE dimEnrollmentCode ADD CONSTRAINT dimEnrollmentCode_PK PRIMARY KEY (EnrollmentCodeID)
+/
+
+-- Table dimDisciplineEventCode
+
+CREATE TABLE dimDisciplineEventCode(
+  DisciplineEventCodeID Integer NOT NULL,
+  DisciplineEventCode Varchar2(10 ),
+  DisciplineEventDesc Varchar2(50 )
+)
+/
+
+-- Add keys for table dimDisciplineEventCode
+
+ALTER TABLE dimDisciplineEventCode ADD CONSTRAINT dimDisciplineEventCode_PK PRIMARY KEY (DisciplineEventCodeID)
+/
+
+-- Table dimDisciplineActionCode
+
+CREATE TABLE dimDisciplineActionCode(
+  DisciplineActionCodeID Integer NOT NULL,
+  DisciplineActionCode Varchar2(10 ),
+  DisciplineActionDesc Varchar2(50 )
+)
+/
+
+-- Add keys for table dimDisciplineActionCode
+
+ALTER TABLE dimDisciplineActionCode ADD CONSTRAINT dimDisciplineActionCode_PK PRIMARY KEY (DisciplineActionCodeID)
+/
+
+-- Table dimDate
+
+CREATE TABLE dimDate(
+  DatePK Timestamp(9) NOT NULL,
+  DateName Varchar2(50 ),
+  Year Timestamp(9),
+  YearName Varchar2(50 ),
+  HalfYear Timestamp(9),
+  HalfYearName Varchar2(50 ),
+  Quarter Timestamp(9),
+  QuarterName Varchar2(50 ),
+  Month Timestamp(9),
+  MonthName Varchar2(50 ),
+  Week Timestamp(9),
+  WeekName Varchar2(50 ),
+  DayOfYear Integer,
+  DayOfYearName Varchar2(50 ),
+  DayOfHalfYear Integer,
+  DayOfHalfYearName Varchar2(50 ),
+  DayOfQuarter Integer,
+  DayOfQuarterName Varchar2(50 ),
+  DayOfMonth Integer,
+  DayOfMonthName Varchar2(50 ),
+  DayOfWeek Integer,
+  DayOfWeekName Varchar2(50 ),
+  WeekOfYear Integer,
+  WeekOfYearName Varchar2(50 ),
+  MonthOfYear Integer,
+  MonthOfYearName Varchar2(50 ),
+  MonthOfHalfYear Integer,
+  MonthOfHalfYearName Varchar2(50 ),
+  MonthOfQuarter Integer,
+  MonthOfQuarterName Varchar2(50 ),
+  QuarterOfYear Integer,
+  QuarterOfYearName Varchar2(50 ),
+  QuarterOfHalfYear Integer,
+  QuarterOfHalfYearName Varchar2(50 ),
+  HalfYearOfYear Integer,
+  HalfYearOfYearName Varchar2(50 ),
+  SchoolYear Timestamp(9),
+  SchoolYearName Varchar2(50 ),
+  SchoolHalfYear Timestamp(9),
+  SchoolHalfYearName Varchar2(50 ),
+  SchoolQuarter Timestamp(9),
+  SchoolQuarterName Varchar2(50 ),
+  SchoolMonth Timestamp(9),
+  SchoolMonthName Varchar2(50 ),
+  SchoolWeek Timestamp(9),
+  SchoolWeekName Varchar2(50 ),
+  SchoolDate Timestamp(9),
+  SchoolDayName Varchar2(50 ),
+  SchoolDayOfYear Integer,
+  SchoolDayOfYearName Varchar2(50 ),
+  SchoolDayOfHalfYear Integer,
+  SchoolDayOfHalfYearName Varchar2(50 ),
+  SchoolDayOfQuarter Integer,
+  SchoolDayOfQuarterName Varchar2(50 ),
+  SchoolDayOfMonth Integer,
+  SchoolDayOfMonthName Varchar2(50 ),
+  SchoolDayOfWeek Integer,
+  SchoolDayOfWeekName Varchar2(50 ),
+  SchoolWeekOfYear Integer,
+  SchoolWeekOfYearName Varchar2(50 ),
+  SchoolMonthOfYear Integer,
+  SchoolMonthOfYearName Varchar2(50 ),
+  SchoolMonthOfHalfYear Integer,
+  SchoolMonthOfHalfYearName Varchar2(50 ),
+  SchoolMonthOfQuarter Integer,
+  SchoolMonthOfQuarterName Varchar2(50 ),
+  SchoolQuarterOfYear Integer,
+  SchoolQuarterOfYearName Varchar2(50 ),
+  SchoolQuarterOfHalfYear Integer,
+  SchoolQuarterOfHalfYearName Varchar2(50 ),
+  SchoolHalfYearOfYear Integer,
+  SchoolHalfYearOfYearName Varchar2(50 ),
+  SchoolDay Integer,
+  SchoolNineWeeks Integer
+)
+/
+
+-- Add keys for table dimDate
+
+ALTER TABLE dimDate ADD CONSTRAINT dimDate_PK PRIMARY KEY (DatePK)
+/
+
+-- Table dimCourse
+
+CREATE TABLE dimCourse(
+  CourseID Integer NOT NULL,
+  SubjectID Integer,
+  CourseSISID Varchar2(50 ),
+  CourseTitle Varchar2(50 ),
+  CourseLevel Varchar2(50 )
+)
+/
+
+-- Add keys for table dimCourse
+
+ALTER TABLE dimCourse ADD CONSTRAINT dimCourse_PK PRIMARY KEY (CourseID)
+/
+
+-- Table dimAssignment
+
+CREATE TABLE dimAssignment(
+  AssignmentID Integer NOT NULL,
+  Assignment Varchar2(50 )
+)
+/
+
+-- Add keys for table dimAssignment
+
+ALTER TABLE dimAssignment ADD CONSTRAINT dimAssignment_PK PRIMARY KEY (AssignmentID)
+/
+
+-- Table dimAbsenceCode
+
+CREATE TABLE dimAbsenceCode(
+  AbsenceCodeID Integer NOT NULL,
+  AbsenceCode Varchar2(10 ),
+  AbsenceCodeDesc Varchar2(50 ),
+  Unexcused Varchar2(20 )
+)
+/
+
+-- Add keys for table dimAbsenceCode
+
+ALTER TABLE dimAbsenceCode ADD CONSTRAINT dimAbsenceCode_PK PRIMARY KEY (AbsenceCodeID)
+/
+
+-- Create relationships section ------------------------------------------------- 
+
+ALTER TABLE dimCourse ADD CONSTRAINT dimSubject_dimCourse_FK1 FOREIGN KEY (SubjectID) REFERENCES dimSubject (SubjectID)
+/
+
+ALTER TABLE dimStaff ADD CONSTRAINT dimFacility_dimStaff_FK1 FOREIGN KEY (PrimaryFacilityID) REFERENCES dimFacility (FacilityID)
+/
+
+ALTER TABLE dimStandardizedTestDomain ADD CONSTRAINT dimSubject_dimStdTstDomain_FK1 FOREIGN KEY (SubjectID) REFERENCES dimSubject (SubjectID)
+/
+
+ALTER TABLE dimStudent ADD CONSTRAINT dimAssignment_dimStudent_FK1 FOREIGN KEY (AssignmentID) REFERENCES dimAssignment (AssignmentID)
+/
+
+ALTER TABLE dimStudent ADD CONSTRAINT dimDate_dimStudent_FK1 FOREIGN KEY (EnrollmentDate) REFERENCES dimDate (DatePK)
+/
+
+ALTER TABLE dimStudent ADD CONSTRAINT dimDate_dimStudent_FK2 FOREIGN KEY (WithdrawalDate) REFERENCES dimDate (DatePK)
+/
+
+ALTER TABLE dimStudent ADD CONSTRAINT dimDate_dimStudent_FK3 FOREIGN KEY (BirthDate) REFERENCES dimDate (DatePK)
+/
+
+ALTER TABLE dimStudent ADD CONSTRAINT dimEnrollmentCod_dimStuden_FK1 FOREIGN KEY (EnrollmentCodeID) REFERENCES dimEnrollmentCode (EnrollmentCodeID)
+/
+
+ALTER TABLE dimStudent ADD CONSTRAINT dimFacility_dimStudent_FK1 FOREIGN KEY (FacilityID) REFERENCES dimFacility (FacilityID)
+/
+
+ALTER TABLE dimStudent ADD CONSTRAINT dimStaff_dimStudent_FK1 FOREIGN KEY (HomeroomStaffID) REFERENCES dimStaff (StaffID)
+/
+
+ALTER TABLE dimStudent ADD CONSTRAINT dimWdrawalCode_dimStd_FK1 FOREIGN KEY (WithdrawalCodeID) REFERENCES dimWithdrawalCode (WithdrawalCodeID)
+/
+
+ALTER TABLE factAbsence ADD CONSTRAINT dimAbsenceCode_factAbsence_FK1 FOREIGN KEY (AbsenceCodeID) REFERENCES dimAbsenceCode (AbsenceCodeID)
+/
+
+ALTER TABLE factAbsence ADD CONSTRAINT dimDate_factAbsence_FK1 FOREIGN KEY (AbsenceDate) REFERENCES dimDate (DatePK)
+/
+
+ALTER TABLE factAbsence ADD CONSTRAINT dimFacility_factAbsence_FK1 FOREIGN KEY (FacilityID) REFERENCES dimFacility (FacilityID)
+/
+
+ALTER TABLE factAbsence ADD CONSTRAINT dimStaff_factAbsence_FK1 FOREIGN KEY (StaffID) REFERENCES dimStaff (StaffID)
+/
+
+ALTER TABLE factAbsence ADD CONSTRAINT dimStudent_factAbsence_FK1 FOREIGN KEY (StudentID) REFERENCES dimStudent (StudentID)
+/
+
+ALTER TABLE factDiscipline ADD CONSTRAINT dimDate_factDiscipline_FK1 FOREIGN KEY (EventDate) REFERENCES dimDate (DatePK)
+/
+
+ALTER TABLE factDiscipline ADD CONSTRAINT dimDate_factDiscipline_FK2 FOREIGN KEY (ActionDate) REFERENCES dimDate (DatePK)
+/
+
+ALTER TABLE factDiscipline ADD CONSTRAINT dimDate_factDiscipline_FK3 FOREIGN KEY (ResolutionDate) REFERENCES dimDate (DatePK)
+/
+
+ALTER TABLE factDiscipline ADD CONSTRAINT dimDiscActionCode_factDisc_FK1 FOREIGN KEY (DisciplineActionCodeID) REFERENCES dimDisciplineActionCode (DisciplineActionCodeID)
+/
+
+ALTER TABLE factDiscipline ADD CONSTRAINT dimDiscEventCode_factDisc_FK1 FOREIGN KEY (DisciplineEventCodeID) REFERENCES dimDisciplineEventCode (DisciplineEventCodeID)
+/
+
+ALTER TABLE factDiscipline ADD CONSTRAINT dimFacility_factDiscipline_FK1 FOREIGN KEY (EventFacilityID) REFERENCES dimFacility (FacilityID)
+/
+
+ALTER TABLE factDiscipline ADD CONSTRAINT dimStaff_factDiscipline_FK1 FOREIGN KEY (EventReportingStaffID) REFERENCES dimStaff (StaffID)
+/
+
+ALTER TABLE factDiscipline ADD CONSTRAINT dimStaff_factDiscipline_FK2 FOREIGN KEY (ActionStaffID) REFERENCES dimStaff (StaffID)
+/
+
+ALTER TABLE factDiscipline ADD CONSTRAINT dimStudent_factDiscipline_FK1 FOREIGN KEY (StudentID) REFERENCES dimStudent (StudentID)
+/
+
+ALTER TABLE factHSGTDomainScore ADD CONSTRAINT FK_factHSGTDomScore_dimHSGTDom FOREIGN KEY (HSGTDomainID) REFERENCES dimHSGTDomain (HSGTDomainID)
+/
+
+ALTER TABLE factHSGTDomainScore ADD CONSTRAINT FK_factHSGTDomScor_factHSScore FOREIGN KEY (HSGTScoreID) REFERENCES factHSGTScore (HSGTScoreID)
+/
+
+ALTER TABLE factHSGTScore ADD CONSTRAINT FK_factHSGTScore_dimDate FOREIGN KEY (TestDate) REFERENCES dimDate (DatePK)
+/
+
+ALTER TABLE factHSGTScore ADD CONSTRAINT FK_factHSGTScore_dimStudent FOREIGN KEY (StudentID) REFERENCES dimStudent (StudentID)
+/
+
+ALTER TABLE factHSGTScore ADD CONSTRAINT FK_factHSGTScore_dimSubject FOREIGN KEY (SubjectID) REFERENCES dimSubject (SubjectID)
+/
+
+ALTER TABLE factSchoolKPI ADD CONSTRAINT FK_factSchoolKPI_dimDate FOREIGN KEY (EffectiveDate) REFERENCES dimDate (DatePK)
+/
+
+ALTER TABLE factSchoolKPI ADD CONSTRAINT FK_factSchoolKPI_dimFacility FOREIGN KEY (FacilityID) REFERENCES dimFacility (FacilityID)
+/
+
+ALTER TABLE factSpecialProgram ADD CONSTRAINT dimDate_factSpecialProgram_FK1 FOREIGN KEY (EntryDate) REFERENCES dimDate (DatePK)
+/
+
+ALTER TABLE factSpecialProgram ADD CONSTRAINT dimSpclPgm_factSpclPgm_FK1 FOREIGN KEY (ProgramID) REFERENCES dimSpecialProgram (ProgramID)
+/
+
+ALTER TABLE factSpecialProgram ADD CONSTRAINT dimStudent_factSpecialPgm_FK1 FOREIGN KEY (StudentID) REFERENCES dimStudent (StudentID)
+/
+
+ALTER TABLE factStandardizedTestDomainScor ADD CONSTRAINT dimStdTDom_factStdTDomScore_FK1 FOREIGN KEY (StandardizedTestDomainID) REFERENCES dimStandardizedTestDomain (StandardizedTestDomainID)
+/
+
+ALTER TABLE factStandardizedTestDomainScor ADD CONSTRAINT factStd_factStdTstDomScore_FK1 FOREIGN KEY (StandardizedTestScoreID) REFERENCES factStandardizedTestScore (StandardizedTestScoreID)
+/
+
+ALTER TABLE factStandardizedTestScore ADD CONSTRAINT dimDate_factStdTestScore_FK1 FOREIGN KEY (TestDate) REFERENCES dimDate (DatePK)
+/
+
+ALTER TABLE factStandardizedTestScore ADD CONSTRAINT dimStd_factStdTstScor_FK1 FOREIGN KEY (StudentID) REFERENCES dimStudent (StudentID)
+/
+
+ALTER TABLE factStandardizedTestScore ADD CONSTRAINT dimSub_factStdTstScor_FK1 FOREIGN KEY (SubjectID) REFERENCES dimSubject (SubjectID)
+/
+
+ALTER TABLE factStudentCourse ADD CONSTRAINT dimCourse_factStdCourse_FK1 FOREIGN KEY (CourseID) REFERENCES dimCourse (CourseID)
+/
+
+ALTER TABLE factStudentCourse ADD CONSTRAINT dimDate_factStdCourse_FK1 FOREIGN KEY (CourseDate) REFERENCES dimDate (DatePK)
+/
+
+ALTER TABLE factStudentCourse ADD CONSTRAINT dimDate_factStdCourse_FK2 FOREIGN KEY (EnrollmentDate) REFERENCES dimDate (DatePK)
+/
+
+ALTER TABLE factStudentCourse ADD CONSTRAINT dimDate_factStdCourse_FK3 FOREIGN KEY (WithdrawalDate) REFERENCES dimDate (DatePK)
+/
+
+ALTER TABLE factStudentCourse ADD CONSTRAINT dimEnrollCode_factStdCrse_FK1 FOREIGN KEY (EnrollmentCodeID) REFERENCES dimEnrollmentCode (EnrollmentCodeID)
+/
+
+ALTER TABLE factStudentCourse ADD CONSTRAINT dimFacility_factStdCourse_FK1 FOREIGN KEY (FacilityID) REFERENCES dimFacility (FacilityID)
+/
+
+ALTER TABLE factStudentCourse ADD CONSTRAINT dimPeriod_factStdCourse_FK1 FOREIGN KEY (PeriodID) REFERENCES dimPeriod (PeriodID)
+/
+
+ALTER TABLE factStudentCourse ADD CONSTRAINT dimStaff_factStudentCourse_FK1 FOREIGN KEY (StaffID) REFERENCES dimStaff (StaffID)
+/
+
+ALTER TABLE factStudentCourse ADD CONSTRAINT dimStudent_factStdCourse_FK1 FOREIGN KEY (StudentID) REFERENCES dimStudent (StudentID)
+/
+
+ALTER TABLE factStudentCourse ADD CONSTRAINT dimWithCode_factStdCourse_FK1 FOREIGN KEY (WithdrawalCodeID) REFERENCES dimWithdrawalCode (WithdrawalCodeID)
+/
+
+ALTER TABLE factStudentCourseGrade ADD CONSTRAINT dimGradeType_factStdCGrade_FK1 FOREIGN KEY (GradeTypeID) REFERENCES dimGradeType (GradeTypeID)
+/
+
+ALTER TABLE factStudentCourseGrade ADD CONSTRAINT factStdCrs_factStdCGrade_FK1 FOREIGN KEY (StudentCourseID) REFERENCES factStudentCourse (StudentCourseID)
+/
+
+
+
